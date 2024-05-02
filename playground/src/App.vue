@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, shallowRef } from 'vue'
 import { createChart } from 'lightweight-charts'
 import { createChartTool } from '../../src'
 import { generateLineData } from './sample-data'
 
+const cb = shallowRef<ReturnType<typeof createChartTool>>()
 onMounted(() => {
   const chart = createChart(document.getElementById('chart')!, {
     autoSize: true,
@@ -11,14 +12,16 @@ onMounted(() => {
   const lineSeries = chart.addLineSeries()
   const data = generateLineData()
   lineSeries.setData(data)
-  createChartTool(chart, lineSeries)
+  cb.value = createChartTool(chart, lineSeries)
 })
 </script>
 
 <template>
   <div class="container">
     <div class="control-container">
-      <button>Line</button>
+      <button @click="cb?.activeDrawCircle">
+        Circle
+      </button>
     </div>
     <div class="chart-container">
       <div id="chart" />
