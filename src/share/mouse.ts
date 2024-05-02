@@ -1,4 +1,4 @@
-import type { BarPrice, IChartApi, ISeriesApi, SeriesType, Time } from 'lightweight-charts'
+import type { IChartApi, ISeriesApi, SeriesType, Time } from 'lightweight-charts'
 import { remove } from 'lodash-es'
 import { Point } from '../helpers/Point'
 import type { IDestroyable } from '../helpers/idestroyable'
