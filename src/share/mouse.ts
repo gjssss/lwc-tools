@@ -20,6 +20,7 @@ export class MouseHandler implements IDestroyable {
   protected _series?: ISeriesApi<SeriesType>
   protected _chartElement?: HTMLElement
   protected _unSubscribers: Function[] = []
+  protected _update?: Function
 
   protected _mousedowns: MouseEventHandle[] = []
   protected _mouseups: MouseEventHandle[] = []
@@ -28,10 +29,11 @@ export class MouseHandler implements IDestroyable {
 
   protected _isPush: boolean = false
 
-  init(chart: IChartApi, series: ISeriesApi<SeriesType>) {
+  init(chart: IChartApi, series: ISeriesApi<SeriesType>, update: Function) {
     this._chart = chart
     this._series = series
     this._chartElement = chart.chartElement()
+    this._update = update
 
     this.chartElement.addEventListener('mousedown', this._mousedownHandle)
     this.chartElement.addEventListener('mouseup', this._mouseupHandle)
@@ -57,6 +59,10 @@ export class MouseHandler implements IDestroyable {
 
   protected get chartElement() {
     return ensureDefined(this._chartElement)
+  }
+
+  protected get update() {
+    return ensureDefined(this._update)
   }
 
   getCanvasY(clientY: number) {
@@ -144,6 +150,7 @@ export class MouseHandler implements IDestroyable {
       if (eventObj.isConsumed)
         break
     }
+    this.update()
   }
 
   protected _mousedownHandle = (event: MouseEvent) => {
