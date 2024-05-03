@@ -1,5 +1,5 @@
 import type { IChartApi, ISeriesApi, SeriesType } from 'lightweight-charts'
-import { useMouseHandler } from './share/mouse'
+import { MouseHandler } from './share/mouse'
 import type { ToolInstaller, ToolOption } from './types/tool'
 import { PluginBase } from './models/base'
 
@@ -10,7 +10,7 @@ class UpdatePlugin extends PluginBase {
 }
 
 export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>) {
-  const mouse = useMouseHandler()
+  const mouse = new MouseHandler()
   const update = new UpdatePlugin()
   series.attachPrimitive(update)
   mouse.init(chart, series, update.forceUpdate)

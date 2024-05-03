@@ -11,10 +11,9 @@ export class CirclePaneView implements ISeriesPrimitivePaneView {
   }
 
   update() {
-    const series = this.source.series
-    this.y = series.priceToCoordinate(this.source.center.price) as number
-    const timeScale = this.source.chart.timeScale()
-    this.x = timeScale.timeToCoordinate(this.source.center.time) as number
+    const p = this.source.pixelCenter
+    this.x = p.x
+    this.y = p.y
   }
 
   renderer(): ISeriesPrimitivePaneRenderer | null {
