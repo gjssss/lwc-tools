@@ -1,4 +1,4 @@
-import { type ChartPoint, type Point, createPoint } from '../helpers/Point'
+import type { ChartPoint, Point } from '../helpers/Point'
 import { convertChart2Point } from '../helpers/convert'
 import { CirclePaneView } from '../paneView/circle'
 import { PluginBase } from './base'

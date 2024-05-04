@@ -176,14 +176,3 @@ export class MouseHandler implements IDestroyable {
     this._unSubscribers.splice(0)
   }
 }
-
-let _mouseHandler: MouseHandler | undefined
-
-/// / /**
-/// //  * 单例模式获取鼠标事件管理器
-/// //  */
-// export function useMouseHandler() {
-//   if (!_mouseHandler)
-//     _mouseHandler = new MouseHandler()
-//   return _mouseHandler
-// }

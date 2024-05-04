@@ -22,7 +22,7 @@ export function CircleTool(context: ToolInstallContext, end: () => void): ToolOp
         }
       }
     },
-    onMove: (pos, event) => {
+    onMove: (_, event) => {
       const price = event.getPrice()
       const time = event.getTime()
       if (price && time) {
