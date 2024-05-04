@@ -1,43 +1,35 @@
+import { defu } from 'defu'
 import type { ChartPoint, Point } from '../helpers/Point'
 import { convertChart2Point } from '../helpers/convert'
 import { CirclePaneView } from '../paneView/circle'
-import { PluginBase } from './base'
+import type { ChartToolContext } from '../types/tool'
+import { WidgetBase } from './widget'
 
-const defaultOption: CircleOption = {
+const defaultOption: Partial<CircleOption> = {
   fillColor: 'black',
 }
 
-export class Circle extends PluginBase {
-  center: ChartPoint
-  pos: ChartPoint
-  option: CircleOption
+export class Circle extends WidgetBase {
+  option: Required<CircleOption>
   _paneViews: CirclePaneView[]
 
-  constructor(center: ChartPoint, pos: ChartPoint, option?: CircleOption) {
-    super()
-    this.center = center
-    this.pos = pos
-    this.option = option ?? defaultOption
+  constructor(context: ChartToolContext, option: CircleOption) {
+    super(context)
+    this.option = defu(option, defaultOption) as Required<CircleOption>
     this._paneViews = [new CirclePaneView(this)]
   }
 
   public get pixelCenter(): Point {
-    return convertChart2Point(this.chart.timeScale(), this.series, this.center)
+    return convertChart2Point(this.chart.timeScale(), this.series, this.option.center)
   }
 
   public get radius(): number {
-    return this.pixelCenter.distance(convertChart2Point(this.chart.timeScale(), this.series, this.pos))
-  }
-
-  paneViews() {
-    return this._paneViews
-  }
-
-  updateAllViews() {
-    this._paneViews.forEach(pw => pw.update())
+    return this.pixelCenter.distance(convertChart2Point(this.chart.timeScale(), this.series, this.option.pos))
   }
 }
 
 interface CircleOption {
-  fillColor: string
+  fillColor?: string
+  center: ChartPoint
+  pos: ChartPoint
 }

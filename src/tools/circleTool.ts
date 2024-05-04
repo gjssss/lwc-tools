@@ -1,7 +1,7 @@
 import { Circle } from '../models/circle'
-import type { ToolInstallContext, ToolOption } from '../types/tool'
+import type { ChartToolContext, ToolOption } from '../types/tool'
 
-export function CircleTool(context: ToolInstallContext, end: () => void): ToolOption {
+export function CircleTool(context: ChartToolContext, end: () => void): ToolOption {
   let previewCircle: null | Circle = null
   const { series } = context
   let step = 0
@@ -28,18 +28,21 @@ export function CircleTool(context: ToolInstallContext, end: () => void): ToolOp
       if (price && time) {
         // 首先先创建圆
         if (step === 0) {
-          previewCircle = new Circle({ price, time }, { price, time })
+          previewCircle = new Circle(context, {
+            center: { price, time },
+            pos: { price, time },
+          })
           series.attachPrimitive(previewCircle)
           step = 1
         }
         // 当有圆后，点击前预览位置
         else if (step === 1) {
-          previewCircle!.center = { price, time }
-          previewCircle!.pos = { price, time }
+          previewCircle!.option.center = { price, time }
+          previewCircle!.option.pos = { price, time }
         }
         // 位置确定后决定半径
         else if (step === 2) {
-          previewCircle!.pos = { price, time }
+          previewCircle!.option.pos = { price, time }
         }
       }
     },

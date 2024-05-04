@@ -1,5 +1,6 @@
 import type { IChartApi, ISeriesApi, SeriesType } from 'lightweight-charts'
-import type { MouseEventHandle } from '../helpers/mouse'
+import type { MouseEventHandle, MouseHandler } from '../helpers/mouse'
+import type { WidgetBase } from '../models/widget'
 
 export interface ToolOption {
   name: string
@@ -8,9 +9,11 @@ export interface ToolOption {
   onPushMove?: MouseEventHandle
 }
 
-export interface ToolInstallContext {
+export interface ChartToolContext {
   chart: IChartApi
   series: ISeriesApi<SeriesType>
+  mouse: MouseHandler
+  selectWidget: WidgetBase | null
 }
 
-export type ToolInstaller = (context: ToolInstallContext, end: () => void) => ToolOption
+export type ToolInstaller = (context: ChartToolContext, end: () => void) => ToolOption

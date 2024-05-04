@@ -52,6 +52,7 @@
     "@types/node": "^20.11.19",
     "@types/victor": "^1.1.5",
     "bumpp": "^9.3.0",
+    "defu": "^6.1.4",
     "eslint": "^8.56.0",
     "esno": "^4.0.0",
     "lightweight-charts": "^4.1.3",

@@ -6,6 +6,8 @@ export class CirclePaneView implements ISeriesPrimitivePaneView {
   source: Circle
   x?: number
   y?: number
+  r?: number
+  c?: string
   constructor(source: Circle) {
     this.source = source
   }
@@ -14,11 +16,13 @@ export class CirclePaneView implements ISeriesPrimitivePaneView {
     const p = this.source.pixelCenter
     this.x = p.x
     this.y = p.y
+    this.r = this.source.radius
+    this.c = this.source.option.fillColor
   }
 
   renderer(): ISeriesPrimitivePaneRenderer | null {
-    if (this.x && this.y)
-      return drawCircle(this.x, this.y, this.source.radius, this.source.option.fillColor)
+    if (this.x && this.y && this.r && this.c)
+      return drawCircle(this.x, this.y, this.r, this.c)
     else return null
   }
 }

@@ -1,6 +1,6 @@
 import type { IChartApi, ISeriesApi, SeriesType } from 'lightweight-charts'
 import { MouseHandler } from './helpers/mouse'
-import type { ToolInstaller, ToolOption } from './types/tool'
+import type { ChartToolContext, ToolInstaller, ToolOption } from './types/tool'
 import { PluginBase } from './models/base'
 
 class UpdatePlugin extends PluginBase {
@@ -17,8 +17,16 @@ export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>
 
   const tools = new Map<string, ToolOption>()
   let activeTool: string | null = null
+
+  const context: ChartToolContext = {
+    chart,
+    series,
+    mouse,
+    selectWidget: null,
+  }
+
   function install(installer: ToolInstaller) {
-    const option = installer({ chart, series }, () => {
+    const option = installer(context, () => {
       activeTool = null
     })
     if (tools.get(option.name))
