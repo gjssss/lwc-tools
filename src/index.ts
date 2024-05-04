@@ -1,5 +1,5 @@
 import type { IChartApi, ISeriesApi, SeriesType } from 'lightweight-charts'
-import { MouseHandler } from './share/mouse'
+import { MouseHandler } from './helpers/mouse'
 import type { ToolInstaller, ToolOption } from './types/tool'
 import { PluginBase } from './models/base'
 

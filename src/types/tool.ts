@@ -1,5 +1,5 @@
 import type { IChartApi, ISeriesApi, SeriesType } from 'lightweight-charts'
-import type { MouseEventHandle } from '../share/mouse'
+import type { MouseEventHandle } from '../helpers/mouse'
 
 export interface ToolOption {
   name: string
