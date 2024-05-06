@@ -16,6 +16,7 @@ export function CircleTool(context: ChartToolContext, end: () => void): ToolOpti
           step = 2
         }
         else if (step === 2) {
+          previewCircle?.completeCreate()
           previewCircle = null
           step = 0
           end()

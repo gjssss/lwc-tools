@@ -4,6 +4,9 @@ import type { ChartToolContext, ToolInstaller, ToolOption } from './types/tool'
 import { PluginBase } from './models/base'
 
 class UpdatePlugin extends PluginBase {
+  updateAllViews(): void {
+  }
+
   public forceUpdate = () => {
     return this.requestUpdate()
   }
