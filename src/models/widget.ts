@@ -1,9 +1,11 @@
+import type { BasePaneView } from '../paneView/base'
 import type { CirclePaneView } from '../paneView/circle'
 import type { ChartToolContext } from '../types/tool'
 import { PluginBase } from './base'
 
 export abstract class WidgetBase extends PluginBase {
-  protected abstract _paneViews: CirclePaneView[]
+  isShow: boolean = true
+  protected _paneViews: BasePaneView[] = []
   chartContext: ChartToolContext
 
   constructor(context: ChartToolContext) {
@@ -13,9 +15,5 @@ export abstract class WidgetBase extends PluginBase {
 
   paneViews() {
     return this._paneViews
-  }
-
-  updateAllViews() {
-    this._paneViews.forEach(pw => pw.update())
   }
 }

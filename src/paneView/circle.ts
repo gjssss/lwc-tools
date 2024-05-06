@@ -1,28 +1,16 @@
 import type { ISeriesPrimitivePaneRenderer, ISeriesPrimitivePaneView } from 'lightweight-charts'
 import type { Circle } from '../models/circle'
 import { drawCircle } from '../render/circle'
+import { BasePaneView } from './base'
 
-export class CirclePaneView implements ISeriesPrimitivePaneView {
-  source: Circle
-  x?: number
-  y?: number
-  r?: number
-  c?: string
-  constructor(source: Circle) {
-    this.source = source
-  }
-
-  update() {
+export class CirclePaneView extends BasePaneView<Circle> {
+  protected _renderer(): ISeriesPrimitivePaneRenderer | null {
     const p = this.source.pixelCenter
-    this.x = p.x
-    this.y = p.y
-    this.r = this.source.radius
-    this.c = this.source.option.fillColor
-  }
+    const r = this.source.radius
+    const c = this.source.option.fillColor
 
-  renderer(): ISeriesPrimitivePaneRenderer | null {
-    if (this.x && this.y && this.r && this.c)
-      return drawCircle(this.x, this.y, this.r, this.c)
+    if (p.x && p.y && r && c)
+      return drawCircle(p.x, p.y, r, c)
     else return null
   }
 }

@@ -11,12 +11,11 @@ const defaultOption: Partial<CircleOption> = {
 
 export class Circle extends WidgetBase {
   option: Required<CircleOption>
-  _paneViews: CirclePaneView[]
 
   constructor(context: ChartToolContext, option: CircleOption) {
     super(context)
     this.option = defu(option, defaultOption) as Required<CircleOption>
-    this._paneViews = [new CirclePaneView(this)]
+    this._paneViews.push(new CirclePaneView(this))
   }
 
   public get pixelCenter(): Point {
