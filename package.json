@@ -42,7 +42,8 @@
     "start": "esno src/index.ts",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
-    "play": "pnpm -F playground dev"
+    "play": "pnpm -F playground dev",
+    "check": "pnpm -F playground check"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",

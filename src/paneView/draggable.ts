@@ -1,4 +1,4 @@
-import type { ChartPoint, Point } from '../helpers/Point'
+import type { Point } from '../helpers/Point'
 import { disableChartScroll } from '../helpers/disableScroll'
 import type { MouseEventObject } from '../helpers/mouse'
 import type { WidgetBase } from '../models/widget'
