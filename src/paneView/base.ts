@@ -49,6 +49,7 @@ export abstract class BasePaneView<T extends WidgetBase = WidgetBase> implements
     this.isHold = false
     if (this.isHover) {
       this.source.toSelected()
+      _event.isConsumed = true
 
       if (this.onClick)
         this.onClick()
