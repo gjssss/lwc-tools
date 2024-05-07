@@ -40,7 +40,11 @@ export class Circle extends WidgetBase {
   updateAllViews(): void {
     const pixelCenter = this.pixelCenter
     const radius = pixelCenter.distance(this.pixelPos)
-    this.circlePw.update(pixelCenter.x, pixelCenter.y, radius, this.option.fillColor)
+    this.circlePw.update({
+      x: pixelCenter.x,
+      y: pixelCenter.y,
+      radius,
+    })
   }
 }
 
