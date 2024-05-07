@@ -75,4 +75,4 @@ export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>
   }
 }
 
-export * from './tools/circleTool'
+export * from './tools'

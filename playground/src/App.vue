@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, shallowRef } from 'vue'
 import { createChart } from 'lightweight-charts'
-import { CircleTool, createChartTool } from '../../src'
+import { CircleTool, LineTool, createChartTool } from '../../src'
 import { generateLineData } from './sample-data'
 
 const cb = shallowRef<Record<string, Function>>({})
@@ -14,6 +14,7 @@ onMounted(() => {
   lineSeries.setData(data)
   const chartTool = createChartTool(chart, lineSeries)
   cb.value.activeCircle = chartTool.install(CircleTool)
+  cb.value.activeLine = chartTool.install(LineTool)
 })
 </script>
 
@@ -22,6 +23,9 @@ onMounted(() => {
     <div class="control-container">
       <button @click="cb?.activeCircle">
         Circle
+      </button>
+      <button @click="cb?.activeLine">
+        Line
       </button>
     </div>
     <div class="chart-container">
