@@ -50,7 +50,7 @@ export abstract class DraggablePaneView<T extends WidgetBase = WidgetBase> exten
     // 当`isHover`为true时表示鼠标与元素进行碰撞，此时应该被拖动
     // `isDrag`的作用：在拖动的过程中，由于Canvas刷新的原因导致图形与鼠标会出现一定偏移，而偏移的时候`isHover`为false（因为没有碰撞）
     // 但此时拖动不应该终止，这个flag就是保证在拖动过程中持续进行。
-    if ((this.isHover || this.isDrag) && this.source.isSelect) {
+    if ((this.isHold || this.isDrag) && this.source.isSelect) {
       // 表示事件被消耗，不应该传递给下层
       _event.isConsumed = true
       // 标记拖动
