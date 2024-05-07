@@ -29,7 +29,7 @@ export abstract class DraggablePaneView<T extends WidgetBase = WidgetBase> exten
 
   override onMouseDown(_pos: Point, _event: MouseEventObject) {
     super.onMouseDown(_pos, _event)
-    if (this.isHold && this.disableBgScroll)
+    if (this.isHold && this.disableBgScroll && this.source.isSelect)
       this.enableFn = disableChartScroll(this.source.chartContext.chart)
   }
 

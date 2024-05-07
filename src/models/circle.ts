@@ -26,6 +26,7 @@ export class Circle extends WidgetBase {
       },
       anchor: () => this.pixelCenter,
     })
+
     this._paneViews.push(this.circlePw)
   }
 
@@ -44,6 +45,7 @@ export class Circle extends WidgetBase {
       x: pixelCenter.x,
       y: pixelCenter.y,
       radius,
+      fillColor: this.option.fillColor,
     })
   }
 }
