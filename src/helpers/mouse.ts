@@ -143,7 +143,7 @@ export class MouseHandler implements IDestroyable {
   }
 
   protected _execHandle(event: MouseEvent, handles: MouseEventHandle[]) {
-    for (let i = 0; i < handles.length; i++) {
+    for (let i = handles.length - 1; i >= 0; i--) {
       const pos = this._buildPos(event)
       const eventObj = this._buildEvent(event)
       handles[i](pos, eventObj)

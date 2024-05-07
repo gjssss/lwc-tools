@@ -42,7 +42,10 @@ export abstract class BasePaneView<T extends WidgetBase = WidgetBase> implements
   }
 
   protected onMouseDown(_pos: Point, _event: MouseEventObject) {
-    this.isHold = this.isHover
+    if (this.isHover) {
+      this.isHold = true
+      _event.isConsumed = true
+    }
   }
 
   protected onMouseUp(_pos: Point, _event: MouseEventObject) {

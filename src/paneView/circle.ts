@@ -12,7 +12,7 @@ export class CirclePaneView extends DraggablePaneView {
       const center = createPoint(this.option.x, this.option.y)
       const radius = this.option.radius
       const dis = createPoint(x, y).distance(center)
-      return dis <= radius
+      return dis <= radius + (this.option.strockWidth ?? 0)
     }
     else {
       return false
