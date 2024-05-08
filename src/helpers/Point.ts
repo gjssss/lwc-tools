@@ -1,4 +1,4 @@
-import type { ISeriesApi, ITimeScaleApi, SeriesType, Time } from 'lightweight-charts'
+import type { ISeriesApi, ITimeScaleApi, Logical, SeriesType, Time } from 'lightweight-charts'
 import Point from 'victor'
 import { convertChart2Point, convertPoint2Chart } from './convert'
 
@@ -35,12 +35,12 @@ export function tryToMove(timeScale: ITimeScaleApi<Time>, series: ISeriesApi<Ser
   if (newChartPoint === null) {
     return false
   }
-  else if (newChartPoint.price === chartPoint.price && newChartPoint.time === chartPoint.time) {
+  else if (newChartPoint.price === chartPoint.price && newChartPoint.logicalTime === chartPoint.logicalTime) {
     return false
   }
   else {
     chartPoint.price = newChartPoint.price
-    chartPoint.time = newChartPoint.time
+    chartPoint.logicalTime = newChartPoint.logicalTime
     return true
   }
 }
@@ -49,6 +49,6 @@ export function tryToMove(timeScale: ITimeScaleApi<Time>, series: ISeriesApi<Ser
  * 图表中的点，包括时间和价格
  */
 export interface ChartPoint {
-  time: Time
+  logicalTime: Logical
   price: number
 }

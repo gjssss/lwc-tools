@@ -7,7 +7,7 @@ import { createPoint } from './Point'
  */
 export function convertChart2Point(timeScale: ITimeScaleApi<Time>, series: ISeriesApi<SeriesType>, chartPoint: ChartPoint) {
   const y = series.priceToCoordinate(chartPoint.price) as number
-  const x = timeScale.timeToCoordinate(chartPoint.time) as number
+  const x = timeScale.logicalToCoordinate(chartPoint.logicalTime) as number
   return createPoint(x, y)
 }
 
@@ -15,11 +15,11 @@ export function convertChart2Point(timeScale: ITimeScaleApi<Time>, series: ISeri
  * 将像素坐标转化为时间价格坐标
  */
 export function convertPoint2Chart(timeScale: ITimeScaleApi<Time>, series: ISeriesApi<SeriesType>, point: Point): ChartPoint | null {
-  const time = timeScale.coordinateToTime(point.x)
+  const logicalTime = timeScale.coordinateToLogical(point.x)
   const price = series.coordinateToPrice(point.y)
-  if (time && price) {
+  if (logicalTime && price) {
     return {
-      time,
+      logicalTime,
       price,
     }
   }

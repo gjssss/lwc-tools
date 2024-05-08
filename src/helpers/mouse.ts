@@ -1,4 +1,4 @@
-import type { IChartApi, ISeriesApi, SeriesType, Time } from 'lightweight-charts'
+import type { IChartApi, ISeriesApi, Logical, SeriesType, Time } from 'lightweight-charts'
 import { remove } from 'lodash-es'
 import { Point } from '../helpers/Point'
 import type { IDestroyable } from '../helpers/idestroyable'
@@ -11,6 +11,7 @@ export interface MouseEventObject extends MouseEvent {
   isPush: boolean
   getTime: () => Time | null
   getPrice: () => number | null
+  getLogical: () => Logical | null
 }
 
 export type MouseEventHandle = (pos: Point, event: MouseEventObject) => void
@@ -83,6 +84,10 @@ export class MouseHandler implements IDestroyable {
     return this.series.coordinateToPrice(y)
   }
 
+  getLogical(x: number) {
+    return this.chart.timeScale().coordinateToLogical(x)
+  }
+
   addMouseEventListener(
     eventType: MouseEventType,
     handler: MouseEventHandle,
@@ -134,6 +139,7 @@ export class MouseHandler implements IDestroyable {
       isPush: this._isPush,
       isConsumed: false,
       getPrice: () => this.getPrice(this.getCanvasY(event.clientY)),
+      getLogical: () => this.getLogical(this.getCanvasX(event.clientX)),
       getTime: () => this.getTime(this.getCanvasX(event.clientX)),
     }
   }

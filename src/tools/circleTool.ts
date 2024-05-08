@@ -25,25 +25,25 @@ export function CircleTool(context: ChartToolContext, end: () => void): ToolOpti
     },
     onMove: (_, event) => {
       const price = event.getPrice()
-      const time = event.getTime()
-      if (price && time) {
+      const logicalTime = event.getLogical()
+      if (price && logicalTime) {
         // 首先先创建圆
         if (step === 0) {
           previewCircle = new Circle(context, {
-            center: { price, time },
-            pos: { price, time },
+            center: { price, logicalTime },
+            pos: { price, logicalTime },
           })
           series.attachPrimitive(previewCircle)
           step = 1
         }
         // 当有圆后，点击前预览位置
         else if (step === 1) {
-          previewCircle!.option.center = { price, time }
-          previewCircle!.option.pos = { price, time }
+          previewCircle!.option.center = { price, logicalTime }
+          previewCircle!.option.pos = { price, logicalTime }
         }
         // 位置确定后决定半径
         else if (step === 2) {
-          previewCircle!.option.pos = { price, time }
+          previewCircle!.option.pos = { price, logicalTime }
         }
       }
     },
