@@ -10,6 +10,8 @@ export default antfu(
   {
     rules: {
       // overrides
+      'no-console': 'off',
+      'no-debugger': 'off',
     },
   },
 )

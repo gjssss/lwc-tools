@@ -39,6 +39,17 @@ export abstract class BasePaneView<T extends WidgetBase = WidgetBase> implements
 
   protected onMouseMove(_pos: Point, _event: MouseEventObject) {
     this.isHover = this.hitTest(_pos.x, _pos.y)
+
+    if (this.isHover)
+      this.source.toSelected()
+
+    // else {
+    //   console.log('notHover')
+    //   if (!this.isHold) {
+    //     console.log('toUnselected')
+    //     this.source.toUnselected()
+    //   }
+    // }
   }
 
   protected onMouseDown(_pos: Point, _event: MouseEventObject) {
@@ -56,6 +67,9 @@ export abstract class BasePaneView<T extends WidgetBase = WidgetBase> implements
 
       if (this.onClick)
         this.onClick()
+    }
+    else {
+      this.source.toUnselected()
     }
   }
 
