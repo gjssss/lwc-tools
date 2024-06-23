@@ -15,6 +15,10 @@ export interface MouseEventObject extends MouseEvent {
 }
 
 export type MouseEventHandle = (pos: Point, event: MouseEventObject) => void
+interface EventSymbol {
+  handler: MouseEventHandle
+  symbol: symbol
+}
 
 export class MouseHandler implements IDestroyable {
   protected _chart?: IChartApi
@@ -23,10 +27,13 @@ export class MouseHandler implements IDestroyable {
   protected _unSubscribers: Function[] = []
   protected _update?: Function
 
-  protected _mousedowns: MouseEventHandle[] = []
-  protected _mouseups: MouseEventHandle[] = []
-  protected _mousemoves: MouseEventHandle[] = []
-  protected _mousePressedMoves: MouseEventHandle[] = []
+  protected _mousedowns: EventSymbol[] = []
+
+  protected _mouseups: EventSymbol[] = []
+
+  protected _mousemoves: EventSymbol[] = []
+
+  protected _mousePressedMoves: EventSymbol[] = []
 
   protected _isPush: boolean = false
 
@@ -91,42 +98,55 @@ export class MouseHandler implements IDestroyable {
   addMouseEventListener(
     eventType: MouseEventType,
     handler: MouseEventHandle,
-  ): void {
+  ): symbol {
+    const symbol = Symbol('mouse')
     switch (eventType) {
       case 'mousedown':
-        this._mousedowns.push(handler)
+        this._mousedowns.push({
+          handler,
+          symbol,
+        })
         break
       case 'mousemove':
-        this._mousemoves.push(handler)
+        this._mousemoves.push({
+          handler,
+          symbol,
+        })
         break
       case 'mouseup':
-        this._mouseups.push(handler)
+        this._mouseups.push({
+          handler,
+          symbol,
+        })
         break
       case 'mousePressedMove':
-        this._mousePressedMoves.push(handler)
+        this._mousePressedMoves.push({
+          handler,
+          symbol,
+        })
         break
       default:
         break
     }
+    return symbol
   }
 
   removeMouseEventListener(
     eventType: MouseEventType,
-    handler: MouseEventHandle,
+    symbol: symbol,
   ): void {
     switch (eventType) {
       case 'mousedown':
-        remove(this._mousedowns, item => item === handler)
+        remove(this._mousedowns, item => item.symbol === symbol)
         break
       case 'mousemove':
-        remove(this._mousemoves, item => item === handler)
-        this._mousemoves.push(handler)
+        remove(this._mousemoves, item => item.symbol === symbol)
         break
       case 'mouseup':
-        remove(this._mouseups, item => item === handler)
+        remove(this._mouseups, item => item.symbol === symbol)
         break
       case 'mousePressedMove':
-        remove(this._mousePressedMoves, item => item === handler)
+        remove(this._mousePressedMoves, item => item.symbol === symbol)
         break
       default:
         break
@@ -148,11 +168,11 @@ export class MouseHandler implements IDestroyable {
     return new Point(this.getCanvasX(event.clientX), this.getCanvasY(event.clientY))
   }
 
-  protected _execHandle(event: MouseEvent, handles: MouseEventHandle[]) {
+  protected _execHandle(event: MouseEvent, handles: EventSymbol[]) {
     for (let i = handles.length - 1; i >= 0; i--) {
       const pos = this._buildPos(event)
       const eventObj = this._buildEvent(event)
-      handles[i](pos, eventObj)
+      handles[i].handler(pos, eventObj)
       if (eventObj.isConsumed)
         break
     }

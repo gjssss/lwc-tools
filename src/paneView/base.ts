@@ -15,14 +15,22 @@ export abstract class BasePaneView<T extends WidgetBase = WidgetBase> implements
    */
   isHold: boolean = false
 
+  mouseSymbol: Record<string, symbol>
+
   constructor(source: T) {
     this.source = source
 
     const { mouse } = source.chartContext
-    mouse.addMouseEventListener('mousemove', this.onMouseMove.bind(this))
-    mouse.addMouseEventListener('mousedown', this.onMouseDown.bind(this))
-    mouse.addMouseEventListener('mouseup', this.onMouseUp.bind(this))
-    mouse.addMouseEventListener('mousePressedMove', this.onMousePressedMove.bind(this))
+    const mousemoveSym = mouse.addMouseEventListener('mousemove', this.onMouseMove.bind(this))
+    const mousedownSym = mouse.addMouseEventListener('mousedown', this.onMouseDown.bind(this))
+    const mouseupSym = mouse.addMouseEventListener('mouseup', this.onMouseUp.bind(this))
+    const mousePressedMoveSym = mouse.addMouseEventListener('mousePressedMove', this.onMousePressedMove.bind(this))
+    this.mouseSymbol = {
+      mousemove: mousemoveSym,
+      mousedown: mousedownSym,
+      mouseup: mouseupSym,
+      mousePressedMove: mousePressedMoveSym,
+    }
   }
 
   protected abstract _renderer(): ISeriesPrimitivePaneRenderer | null
@@ -81,4 +89,12 @@ export abstract class BasePaneView<T extends WidgetBase = WidgetBase> implements
    * 点击时回调
    */
   protected onClick?(): void
+
+  public distory() {
+    const { mouse } = this.source.chartContext
+    mouse.removeMouseEventListener('mousemove', this.mouseSymbol.mousemove)
+    mouse.removeMouseEventListener('mousedown', this.mouseSymbol.mousedown)
+    mouse.removeMouseEventListener('mouseup', this.mouseSymbol.mouseup)
+    mouse.removeMouseEventListener('mousePressedMove', this.mouseSymbol.mousePressedMove)
+  }
 }

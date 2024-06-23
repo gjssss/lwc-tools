@@ -54,6 +54,7 @@ export abstract class WidgetBase extends PluginBase {
     this.toUnselected()
     this.series.detachPrimitive(this)
     this.detached()
+    this._paneViews.forEach(item => item.distory())
     this.chartContext.update()
   }
 }
