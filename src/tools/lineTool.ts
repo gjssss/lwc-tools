@@ -32,6 +32,8 @@ export function LineTool(context: ChartToolContext, end: () => void): ToolOption
           previewLine = new Line(context, {
             p1: { price, logicalTime },
             p2: { price, logicalTime },
+            extendP1: false,
+            extendP2: false,
           })
           series.attachPrimitive(previewLine)
           step = 1
