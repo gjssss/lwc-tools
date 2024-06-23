@@ -1,0 +1,30 @@
+.w-full {
+    width: 100%;
+}
+.h-full {
+    height: 100%;
+}
+.flex {
+    display: flex;
+}
+.flex-col {
+    flex-direction: column;
+}
+.flex-wrap {
+    flex-wrap: wrap;
+}
+.h-30px {
+    height: 30px;
+}
+.w-60px {
+    width: 60px;
+}
+.gap-10px {
+    gap: 10px;
+}
+.flex-1 {
+    flex: 1;
+}
+.justify-around{
+    justify-content: space-around;
+}
