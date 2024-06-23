@@ -9,6 +9,8 @@ import { WidgetBase } from './widget'
 const defaultOption: Partial<LineOption> = {
   strockColor: 'red',
   strockWidth: 3,
+  extendP1: false,
+  extendP2: false,
 }
 export class Line extends WidgetBase {
   type = 'Line'
@@ -72,6 +74,8 @@ export class Line extends WidgetBase {
       y2: pixelP2.y,
       strockColor: this.option.strockColor,
       strockWidth: this.option.strockWidth,
+      extendP1: this.option.extendP1,
+      extendP2: this.option.extendP2,
     })
     this.p1.update({
       x: pixelP1.x,
@@ -91,4 +95,6 @@ interface LineOption {
   p2: ChartPoint
   strockColor?: string
   strockWidth?: number
+  extendP1: boolean
+  extendP2: boolean
 }

@@ -79,6 +79,7 @@ export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>
   return {
     install,
     getSelectWidget,
+    update: update.forceUpdate,
   }
 }
 

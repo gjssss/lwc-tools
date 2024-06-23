@@ -3,6 +3,7 @@ import { onMounted, ref, shallowRef } from 'vue'
 import { createChart } from 'lightweight-charts'
 import { CircleTool, LineTool, createChartTool } from '../../src'
 import type { WidgetBase } from '../../src/models/widget'
+import type { Line } from '../../src/models/line'
 import { generateLineData } from './sample-data'
 import './style.css'
 import ToolInstaller from './components/toolInstaller.vue'
@@ -12,6 +13,10 @@ const select = ref('tool')
 
 const cb = shallowRef<Record<string, Function>>({})
 const widget = shallowRef<WidgetBase>()
+const chartTool = shallowRef()
+
+const expendP1 = ref(false)
+const expendP2 = ref(false)
 
 const installOption = ref([
   {
@@ -30,8 +35,27 @@ const installOption = ref([
   },
 ])
 
-function onSelect(w: WidgetBase) {
+function onSelect(w?: WidgetBase) {
   widget.value = w
+  if (w && w.type === 'Line') {
+    const lineWidget = w as Line
+    expendP1.value = lineWidget.option.extendP1
+    expendP2.value = lineWidget.option.extendP2
+  }
+}
+
+function updateExpend(type: '1' | '2', value: boolean) {
+  if (type === '1') {
+    expendP1.value = value
+    const lineWidget = widget.value as Line
+    lineWidget.option.extendP1 = value
+  }
+  else {
+    expendP2.value = value
+    const lineWidget = widget.value as Line
+    lineWidget.option.extendP2 = value
+  }
+  chartTool.value.update()
 }
 
 onMounted(() => {
@@ -41,11 +65,11 @@ onMounted(() => {
   const lineSeries = chart.addLineSeries()
   const data = generateLineData()
   lineSeries.setData(data)
-  const chartTool = createChartTool(chart, lineSeries, {
+  chartTool.value = createChartTool(chart, lineSeries, {
     onSelect,
   })
-  cb.value.activeCircle = chartTool.install(CircleTool)
-  cb.value.activeLine = chartTool.install(LineTool)
+  cb.value.activeCircle = chartTool.value.install(CircleTool)
+  cb.value.activeLine = chartTool.value.install(LineTool)
 })
 </script>
 
@@ -67,6 +91,16 @@ onMounted(() => {
           <button @click="widget?.destroy">
             delete
           </button>
+          <div>
+            ExpendP1
+            <button @click="updateExpend('1', !expendP1)">
+              {{ expendP1 }}
+            </button>
+            ExpendP2
+            <button @click="updateExpend('2', !expendP2)">
+              {{ expendP2 }}
+            </button>
+          </div>
         </ToolSetting>
       </div>
     </div>

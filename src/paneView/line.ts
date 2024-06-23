@@ -13,10 +13,18 @@ export class LinePaneView extends DraggablePaneView {
       const end = createPoint(this.option.x2, this.option.y2)
       const { coeff, distance } = distanceToLine(start, end, createPoint(x, y))
 
-      if (coeff >= 0 && coeff <= 1)
-        return distance < this.option.strockWidth
-      else
+      if (distance < this.option.strockWidth) {
+        if (this.option.extendP1 && coeff <= 1)
+          return true
+        else if (this.option.extendP2 && coeff >= 0)
+          return true
+        else if (coeff >= 0 && coeff <= 1)
+          return true
         return false
+      }
+      else {
+        return false
+      }
     }
     else {
       return false
