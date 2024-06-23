@@ -14,6 +14,12 @@ export interface ChartToolContext {
   series: ISeriesApi<SeriesType>
   mouse: MouseHandler
   selectWidget: WidgetBase | null
+  update: () => void
+  onSelect: (widget: WidgetBase) => any
 }
 
 export type ToolInstaller = (context: ChartToolContext, end: () => void) => ToolOption
+
+export interface ChartToolOption {
+  onSelect: (widget: WidgetBase) => any
+}

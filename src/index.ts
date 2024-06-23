@@ -1,6 +1,6 @@
 import type { IChartApi, ISeriesApi, SeriesType } from 'lightweight-charts'
 import { MouseHandler } from './helpers/mouse'
-import type { ChartToolContext, ToolInstaller, ToolOption } from './types/tool'
+import type { ChartToolContext, ChartToolOption, ToolInstaller, ToolOption } from './types/tool'
 import { PluginBase } from './models/base'
 
 class UpdatePlugin extends PluginBase {
@@ -12,7 +12,7 @@ class UpdatePlugin extends PluginBase {
   }
 }
 
-export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>) {
+export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>, option?: ChartToolOption) {
   const mouse = new MouseHandler()
   const update = new UpdatePlugin()
   series.attachPrimitive(update)
@@ -26,6 +26,8 @@ export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>
     series,
     mouse,
     selectWidget: null,
+    update: update.forceUpdate,
+    onSelect: option ? option.onSelect : () => {},
   }
 
   function install(installer: ToolInstaller) {
@@ -38,6 +40,10 @@ export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>
     return () => {
       activeTool = option.name
     }
+  }
+
+  function getSelectWidget() {
+    return context.selectWidget
   }
 
   mouse.addMouseEventListener('mouseup', (pos, event) => {
@@ -72,6 +78,7 @@ export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>
 
   return {
     install,
+    getSelectWidget,
   }
 }
 

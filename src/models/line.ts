@@ -11,6 +11,8 @@ const defaultOption: Partial<LineOption> = {
   strockWidth: 3,
 }
 export class Line extends WidgetBase {
+  type = 'Line'
+
   option: Required<LineOption>
   linePw: LinePaneView
   p1: AnchoredPoint

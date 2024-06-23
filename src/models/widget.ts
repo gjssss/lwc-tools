@@ -3,6 +3,7 @@ import type { ChartToolContext } from '../types/tool'
 import { PluginBase } from './base'
 
 export abstract class WidgetBase extends PluginBase {
+  abstract type: string
   /**
    * 是否被选中
    */
@@ -29,17 +30,30 @@ export abstract class WidgetBase extends PluginBase {
   }
 
   toSelected = () => {
+    if (this.chartContext.selectWidget === this)
+      return
     this.chartContext.selectWidget?.toUnselected()
     this.isSelect = true
     this.chartContext.selectWidget = this
+    this.chartContext.onSelect(this)
   }
 
   toUnselected = () => {
-    this.isSelect = false
-    this.chartContext.selectWidget = null
+    if (this.chartContext.selectWidget) {
+      this.isSelect = false
+      this.chartContext.selectWidget = null
+    }
   }
 
   completeCreate() {
     this.created = true
+  }
+
+  public destroy() {
+    // TODO: 可能有没有清除的地方，要检查一下
+    this.toUnselected()
+    this.series.detachPrimitive(this)
+    this.detached()
+    this.chartContext.update()
   }
 }

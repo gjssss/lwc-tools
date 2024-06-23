@@ -10,6 +10,8 @@ const defaultOption: Partial<CircleOption> = {
   fillColor: 'black',
 }
 export class Circle extends WidgetBase {
+  type = 'Circle'
+
   option: Required<CircleOption>
   circlePw: CirclePaneView
   p1: AnchoredPoint

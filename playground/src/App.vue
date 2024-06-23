@@ -2,6 +2,7 @@
 import { onMounted, ref, shallowRef } from 'vue'
 import { createChart } from 'lightweight-charts'
 import { CircleTool, LineTool, createChartTool } from '../../src'
+import type { WidgetBase } from '../../src/models/widget'
 import { generateLineData } from './sample-data'
 import './style.css'
 import ToolInstaller from './components/toolInstaller.vue'
@@ -10,6 +11,7 @@ import ToolSetting from './components/toolSetting.vue'
 const select = ref('tool')
 
 const cb = shallowRef<Record<string, Function>>({})
+const widget = shallowRef<WidgetBase>()
 
 const installOption = ref([
   {
@@ -28,6 +30,10 @@ const installOption = ref([
   },
 ])
 
+function onSelect(w: WidgetBase) {
+  widget.value = w
+}
+
 onMounted(() => {
   const chart = createChart(document.getElementById('chart')!, {
     autoSize: true,
@@ -35,7 +41,9 @@ onMounted(() => {
   const lineSeries = chart.addLineSeries()
   const data = generateLineData()
   lineSeries.setData(data)
-  const chartTool = createChartTool(chart, lineSeries)
+  const chartTool = createChartTool(chart, lineSeries, {
+    onSelect,
+  })
   cb.value.activeCircle = chartTool.install(CircleTool)
   cb.value.activeLine = chartTool.install(LineTool)
 })
@@ -55,7 +63,10 @@ onMounted(() => {
       <div class="flex-1">
         <ToolInstaller v-if="select === 'tool'" :option="installOption" />
         <ToolSetting v-else>
-          123
+          {{ widget?.type }}
+          <button @click="widget?.destroy">
+            delete
+          </button>
         </ToolSetting>
       </div>
     </div>
