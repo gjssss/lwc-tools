@@ -39,8 +39,9 @@ export abstract class WidgetBase extends PluginBase {
   }
 
   toUnselected = () => {
+    this.isSelect = false
     if (this.chartContext.selectWidget) {
-      this.isSelect = false
+      this.chartContext.onSelect(undefined)
       this.chartContext.selectWidget = null
     }
   }

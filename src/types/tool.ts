@@ -15,11 +15,11 @@ export interface ChartToolContext {
   mouse: MouseHandler
   selectWidget: WidgetBase | null
   update: () => void
-  onSelect: (widget: WidgetBase) => any
+  onSelect: (widget?: WidgetBase) => any
 }
 
 export type ToolInstaller = (context: ChartToolContext, end: () => void) => ToolOption
 
 export interface ChartToolOption {
-  onSelect: (widget: WidgetBase) => any
+  onSelect: (widget?: WidgetBase) => any
 }
