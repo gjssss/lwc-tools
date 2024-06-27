@@ -95,10 +95,7 @@ function calculateColumnPosition(
   const xBitmap = Math.round(xBitmapUnRounded)
   const xPositions: ColumnPosition = {
     left: xBitmap - columnData.columnHalfWidthBitmap,
-    right:
-			xBitmap
-			+ columnData.columnHalfWidthBitmap
-			- (columnData.shiftLeft ? 1 : 0),
+    right: xBitmap + columnData.columnHalfWidthBitmap - (columnData.shiftLeft ? 1 : 0),
     shiftLeft: xBitmap > xBitmapUnRounded,
   }
   const expectedAlignmentShift = columnData.spacing + 1
@@ -107,7 +104,7 @@ function calculateColumnPosition(
       // need to adjust alignment
       if (previousPosition.shiftLeft)
         previousPosition.right = xPositions.left - expectedAlignmentShift
-			 else
+      else
         xPositions.left = previousPosition.right + expectedAlignmentShift
     }
   }
@@ -137,7 +134,7 @@ function fixAlignmentForNarrowColumns(
       return position
     if (position.shiftLeft)
       position.right -= 1
-		 else
+    else
       position.left += 1
 
     return position
@@ -229,7 +226,7 @@ export function calculateColumnPositionsInPlace(
           return item
         if (item.column.shiftLeft)
           item.column.right -= 1
-				 else
+        else
           item.column.left += 1
 
         return item.column

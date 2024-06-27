@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, shallowRef } from 'vue'
 import { createChart } from 'lightweight-charts'
-import { CircleTool, LineTool, createChartTool } from '../../src'
+import { CircleTool, FabLineTool, LineTool, createChartTool } from '../../src'
 import type { WidgetBase } from '../../src/models/widget'
 import type { Line } from '../../src/models/line'
 import { generateLineData } from './sample-data'
@@ -31,6 +31,13 @@ const installOption = ref([
     cb: () => {
       if (cb.value?.activeLine)
         cb.value?.activeLine()
+    },
+  },
+  {
+    name: 'FabLine',
+    cb: () => {
+      if (cb.value?.activeFabLine)
+        cb.value?.activeFabLine()
     },
   },
 ])
@@ -70,6 +77,7 @@ onMounted(() => {
   })
   cb.value.activeCircle = chartTool.value.install(CircleTool)
   cb.value.activeLine = chartTool.value.install(LineTool)
+  cb.value.activeFabLine = chartTool.value.install(FabLineTool)
 })
 </script>
 

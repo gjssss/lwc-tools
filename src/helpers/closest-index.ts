@@ -34,9 +34,9 @@ export class ClosestTimeIndexFinder<T extends { time: number }> {
 
       if (num === target)
         return mid
-			 else if (num > target)
+      else if (num > target)
         high = mid - 1
-			 else
+      else
         low = mid + 1
     }
     return direction === 'left' ? low : high
