@@ -21,5 +21,7 @@ export interface ChartToolContext {
 export type ToolInstaller = (context: ChartToolContext, end: () => void) => ToolOption
 
 export interface ChartToolOption {
-  onSelect: (widget?: WidgetBase) => any
+  onSelect?: (widget?: WidgetBase) => any
+  onDraw?: (type: string) => any
+  onDrawOver?: (type: string) => any
 }

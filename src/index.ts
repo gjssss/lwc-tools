@@ -12,6 +12,8 @@ class UpdatePlugin extends PluginBase {
   }
 }
 
+function defaultFunc() {}
+
 export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>, option?: ChartToolOption) {
   const mouse = new MouseHandler()
   const update = new UpdatePlugin()
@@ -27,11 +29,16 @@ export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>
     mouse,
     selectWidget: null,
     update: update.forceUpdate,
-    onSelect: option ? option.onSelect : () => {},
+    onSelect: option ? (option.onSelect ?? defaultFunc) : defaultFunc,
   }
+  const onDraw = option ? (option.onDraw ?? defaultFunc) : defaultFunc
+  const onDrawOver = option ? (option.onDrawOver ?? defaultFunc) : defaultFunc
 
   function install(installer: ToolInstaller) {
     const option = installer(context, () => {
+      if (activeTool)
+        onDrawOver(activeTool)
+
       activeTool = null
     })
     if (tools.get(option.name))
@@ -39,6 +46,7 @@ export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>
     tools.set(option.name, option)
     return () => {
       activeTool = option.name
+      onDraw(option.name)
     }
   }
 

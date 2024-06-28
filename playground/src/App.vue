@@ -15,6 +15,8 @@ const cb = shallowRef<Record<string, Function>>({})
 const widget = shallowRef<WidgetBase>()
 const chartTool = shallowRef()
 
+const drawToolName = ref<string>()
+
 const expendP1 = ref(false)
 const expendP2 = ref(false)
 
@@ -74,6 +76,8 @@ onMounted(() => {
   lineSeries.setData(data)
   chartTool.value = createChartTool(chart, lineSeries, {
     onSelect,
+    onDraw: name => drawToolName.value = name,
+    onDrawOver: () => drawToolName.value = undefined,
   })
   cb.value.activeCircle = chartTool.value.install(CircleTool)
   cb.value.activeLine = chartTool.value.install(LineTool)
@@ -93,7 +97,12 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex-1">
-        <ToolInstaller v-if="select === 'tool'" :option="installOption" />
+        <template v-if="select === 'tool'">
+          <div>
+            {{ drawToolName ?? 'no tool drawing' }}
+          </div>
+          <ToolInstaller :option="installOption" />
+        </template>
         <ToolSetting v-else>
           {{ widget?.type }}
           <button @click="widget?.destroy">
