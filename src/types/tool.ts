@@ -14,6 +14,7 @@ export interface ChartToolContext {
   series: ISeriesApi<SeriesType>
   mouse: MouseHandler
   selectWidget: WidgetBase | null
+  widgets: WidgetBase[]
   update: () => void
   onSelect: (widget?: WidgetBase) => any
 }

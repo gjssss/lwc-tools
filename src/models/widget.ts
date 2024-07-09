@@ -4,6 +4,7 @@ import { PluginBase } from './base'
 
 export abstract class WidgetBase extends PluginBase {
   abstract type: string
+  abstract option: object
   /**
    * 是否被选中
    */
@@ -47,15 +48,27 @@ export abstract class WidgetBase extends PluginBase {
   }
 
   completeCreate() {
+    this.chartContext.widgets.push(this)
     this.created = true
   }
 
   public destroy() {
     // TODO: 可能有没有清除的地方，要检查一下
+    const index = this.chartContext.widgets.findIndex(w => w === this)
+    if (index === -1)
+      return
+    this.chartContext.widgets.splice(index, 1)
     this.toUnselected()
     this.series.detachPrimitive(this)
     this.detached()
     this._paneViews.forEach(item => item.distory())
     this.chartContext.update()
+  }
+
+  save() {
+    return {
+      type: this.type,
+      option: this.option,
+    }
   }
 }

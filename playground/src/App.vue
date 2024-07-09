@@ -83,6 +83,17 @@ onMounted(() => {
   cb.value.activeLine = chartTool.value.install(LineTool)
   cb.value.activeFabLine = chartTool.value.install(FabLineTool)
 })
+
+function saveHandle() {
+  const data = chartTool.value ? chartTool.value.save() : []
+  console.log(data)
+  localStorage.setItem('data', data)
+}
+function loadHandle() {
+  const data = localStorage.getItem('data') || []
+  console.log(data)
+  chartTool.value?.load(data)
+}
 </script>
 
 <template>
@@ -107,6 +118,12 @@ onMounted(() => {
           {{ widget?.type }}
           <button @click="widget?.destroy">
             delete
+          </button>
+          <button @click="saveHandle">
+            save
+          </button>
+          <button @click="loadHandle">
+            load
           </button>
           <div>
             ExpendP1

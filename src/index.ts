@@ -2,6 +2,10 @@ import type { IChartApi, ISeriesApi, SeriesType } from 'lightweight-charts'
 import { MouseHandler } from './helpers/mouse'
 import type { ChartToolContext, ChartToolOption, ToolInstaller, ToolOption } from './types/tool'
 import { PluginBase } from './models/base'
+import { Line } from './models/line'
+import type { WidgetBase } from './models/widget'
+import { Circle } from './models/circle'
+import { FabLine } from './models/fabLine'
 
 class UpdatePlugin extends PluginBase {
   updateAllViews(): void {
@@ -29,6 +33,7 @@ export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>
     mouse,
     selectWidget: null,
     update: update.forceUpdate,
+    widgets: [],
     onSelect: option ? (option.onSelect ?? defaultFunc) : defaultFunc,
   }
   const onDraw = option ? (option.onDraw ?? defaultFunc) : defaultFunc
@@ -52,6 +57,41 @@ export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>
 
   function getSelectWidget() {
     return context.selectWidget
+  }
+
+  function save() {
+    return JSON.stringify(context.widgets.map(item => item.save()))
+  }
+
+  function load(data: string) {
+    try {
+      const _data = JSON.parse(data) as {
+        type: string
+        option: any
+      }[]
+
+      _data.forEach((item) => {
+        let w: WidgetBase | undefined
+        switch (item.type) {
+          case 'Line':
+            w = new Line(context, item.option)
+            break
+          case 'Circle':
+            w = new Circle(context, item.option)
+            break
+          case 'FabLine':
+            w = new FabLine(context, item.option)
+            break
+        }
+        if (w) {
+          series.attachPrimitive(w)
+          w.completeCreate()
+        }
+      })
+    }
+    catch {
+      throw new Error('`data` can\'t be resolved ')
+    }
   }
 
   mouse.addMouseEventListener('mouseup', (pos, event) => {
@@ -88,6 +128,8 @@ export function createChartTool(chart: IChartApi, series: ISeriesApi<SeriesType>
     install,
     getSelectWidget,
     update: update.forceUpdate,
+    save,
+    load,
   }
 }
 
